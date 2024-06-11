@@ -1,0 +1,459 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Polaris API Docs
+  description: API para gerenciar permissões, perfis, usuários, grupos empresariais, instituições, escopos de projetos, e normas.
+servers:
+  - url: https://southamerica-east1-polaris-dev-2024.cloudfunctions.net/
+
+paths:
+  /select-base-ORM:
+    get:
+      summary: Realiza uma consulta na tabela especificada
+      requestBody:
+        description: Dados para a consulta na tabela especificada
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                table_name:
+                  type: string
+                  description: Nome da tabela para consulta
+                  example: "usuario"
+      responses:
+        '200':
+          description: Resultados da consulta
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        cd_avaliacao:
+                          type: integer
+                        ds_norma:
+                          type: string
+                        ds_versao:
+                          type: string
+                        instituicao:
+                          type: string
+                        dt_inicio_aval:
+                          type: integer
+                        dt_fim_aval:
+                          type: string
+                          nullable: true
+                        ie_status_aval:
+                          type: string
+                        ie_tipo_avaliacao:
+                          type: string
+                        ds_avaliadores:
+                          type: string
+                        avaliacoes_conformidade:
+                          type: array
+                          items:
+                            type: object
+                            properties:
+                              cd_aval_conform:
+                                type: integer
+                              cd_estruturacao_norma:
+                                type: integer
+                              dt_aval_conformidade:
+                                type: integer
+                              ie_conformidade:
+                                type: string
+                              ds_evidencias:
+                                type: string
+                                nullable: true
+                        percent_conforme:
+                          type: number
+                        percent_parcial:
+                          type: number
+                        percent_nao_conforme:
+                          type: number
+              example:
+                data:
+                  - cd_avaliacao: 1
+                    ds_norma: 'HIMSS'
+                    ds_versao: '6'
+                    instituicao: 'Folks'
+                    dt_inicio_aval: 1712580332000
+                    dt_fim_aval: null
+                    ie_status_aval: 'Andamento'
+                    ie_tipo_avaliacao: 'Auditoria'
+                    ds_avaliadores: 'FOLKS_TECH'
+                    avaliacoes_conformidade:
+                      - cd_aval_conform: 11
+                        cd_estruturacao_norma: 11
+                        dt_aval_conformidade: 1712580332000
+                        ie_conformidade: 'Conforme'
+                        ds_evidencias: null
+                      - cd_aval_conform: 10
+                        cd_estruturacao_norma: 10
+                        dt_aval_conformidade: 1712580332000
+                        ie_conformidade: 'Conforme'
+                        ds_evidencias: null
+                      - cd_aval_conform: 9
+                        cd_estruturacao_norma: 9
+                        dt_aval_conformidade: 1712580332000
+                        ie_conformidade: 'Não Conforme'
+                        ds_evidencias: null
+                      - cd_aval_conform: 8
+                        cd_estruturacao_norma: 8
+                        dt_aval_conformidade: 1712580332000
+                        ie_conformidade: 'Conforme'
+                        ds_evidencias: null
+                      - cd_aval_conform: 7
+                        cd_estruturacao_norma: 7
+                        dt_aval_conformidade: 1712580332000
+                        ie_conformidade: 'Parcial'
+                        ds_evidencias: null
+                      - cd_aval_conform: 6
+                        cd_estruturacao_norma: 6
+                        dt_aval_conformidade: 1712580332000
+                        ie_conformidade: 'Parcial'
+                        ds_evidencias: null
+                      - cd_aval_conform: 5
+                        cd_estruturacao_norma: 5
+                        dt_aval_conformidade: 1712580332000
+                        ie_conformidade: 'Conforme'
+                        ds_evidencias: null
+                      - cd_aval_conform: 4
+                        cd_estruturacao_norma: 4
+                        dt_aval_conformidade: 1712580332000
+                        ie_conformidade: 'Conforme'
+                        ds_evidencias: null
+                      - cd_aval_conform: 3
+                        cd_estruturacao_norma: 3
+                        dt_aval_conformidade: 1712580332000
+                        ie_conformidade: 'Não Conforme'
+                        ds_evidencias: null
+                      - cd_aval_conform: 2
+                        cd_estruturacao_norma: 2
+                        dt_aval_conformidade: 1712580332000
+                        ie_conformidade: 'Conforme'
+                        ds_evidencias: null
+                      - cd_aval_conform: 1
+                        cd_estruturacao_norma: 1
+                        dt_aval_conformidade: 1712580332000
+                        ie_conformidade: 'Parcial'
+                        ds_evidencias: null
+                    percent_conforme: 54.54545454545454
+                    percent_parcial: 27.27272727272727
+                    percent_nao_conforme: 18.181818181818183
+        '400':
+          description: Requisição inválida
+        '404':
+          description: Tabela não encontrada
+        '500':
+          description: Erro no servidor
+
+  /insert-base-ORM:
+    post:
+      summary: Insere novos dados na tabela especificada
+      requestBody:
+        description: Dados para inserir na tabela especificada
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                table_name:
+                  type: string
+                  description: Nome da tabela para inserção
+                  example: "usuario"
+                data:
+                  type: array
+                  items:
+                    type: object
+                    example:
+                      ds_email: "example@example.com"
+                      nr_cpf: "12345678901"
+                      nm_usuario: "John Doe"
+                      nr_telefone: "123456789"
+                      dt_nascimento: "1980-01-01"
+                      ds_cargo: "Developer"
+                      ds_endereco: "123 Street"
+                      nm_foto: "binarydata"
+                      perfis: []
+      responses:
+        '200':
+          description: Dados inseridos com sucesso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+        '400':
+          description: Requisição inválida
+        '500':
+          description: Erro no servidor
+
+components:
+  schemas:
+    Permissao:
+      type: object
+      properties:
+        cd_permissao:
+          type: integer
+          readOnly: true
+        ds_permissao:
+          type: string
+        ob_permissao:
+          type: string
+        perfis:
+          type: array
+          items:
+            type: string
+
+    Perfil:
+      type: object
+      properties:
+        cd_perfil:
+          type: integer
+          readOnly: true
+        nm_perfil:
+          type: string
+        ds_perfil:
+          type: string
+        usuarios:
+          type: array
+          items:
+            type: string
+        permissoes:
+          type: array
+          items:
+            type: string
+
+    Usuario:
+      type: object
+      properties:
+        cd_usuario:
+          type: integer
+          readOnly: true
+        ds_email:
+          type: string
+        nr_cpf:
+          type: string
+        nm_usuario:
+          type: string
+        nr_telefone:
+          type: string
+        dt_nascimento:
+          type: string
+          format: date
+        ds_cargo:
+          type: string
+        ds_endereco:
+          type: string
+        nm_foto:
+          type: string
+          format: byte
+        perfis:
+          type: array
+          items:
+            type: string
+
+    GrupoEmpresarial:
+      type: object
+      properties:
+        cd_grupo_empresarial:
+          type: integer
+          readOnly: true
+        ds_grupo_empresarial:
+          type: string
+        instituicoes:
+          type: array
+          items:
+            type: string
+
+    Instituicao:
+      type: object
+      properties:
+        cd_instituicao:
+          type: integer
+          readOnly: true
+        nr_cnpj:
+          type: string
+        ds_razao_social:
+          type: string
+        ds_nome_fantasia:
+          type: string
+        ds_email:
+          type: string
+        nm_foto:
+          type: string
+          format: byte
+        ds_info_adicional:
+          type: string
+        ie_situacao:
+          type: string
+        grupo_empresarial:
+          type: string
+        tipo_instituicao:
+          type: string
+
+    EscopoProjeto:
+      type: object
+      properties:
+        cd_escopo_projeto:
+          type: integer
+          readOnly: true
+        cd_instituicao:
+          type: integer
+        nm_escopo:
+          type: string
+        ds_escopo_projeto:
+          type: string
+
+    Requisito:
+      type: object
+      properties:
+        cd_requisito:
+          type: integer
+          readOnly: true
+        ds_titulo:
+          type: string
+        ds_requisito:
+          type: string
+        ds_codigo_interno:
+          type: string
+        ds_versao:
+          type: string
+        ie_tipo_requisito:
+          type: string
+        cd_categoria:
+          type: string
+        ds_referencia:
+          type: string
+        fl_mandatorio:
+          type: string
+        ds_sequencial:
+          type: string
+
+    Processo:
+      type: object
+      properties:
+        cd_processo:
+          type: integer
+          readOnly: true
+        id_importacao:
+          type: string
+        id_hierarquia:
+          type: string
+        ds_processo:
+          type: string
+        cd_processo_pai:
+          type: integer
+        cd_categoria:
+          type: string
+        cd_profissional:
+          type: string
+
+    Setor:
+      type: object
+      properties:
+        cd_setor:
+          type: integer
+          readOnly: true
+        nm_setor:
+          type: string
+        cd_setor_pai:
+          type: integer
+        ie_tipo_setor:
+          type: string
+        fl_terceirizado:
+          type: string
+        id_importacao:
+          type: string
+        ds_area_setor:
+          type: string
+
+    Tecnologia:
+      type: object
+      properties:
+        cd_tecnologia:
+          type: integer
+          readOnly: true
+        nm_tecnologia:
+          type: string
+        ds_tecnologia:
+          type: string
+        id_hierarquia:
+          type: string
+        cd_tecnologia_pai:
+          type: integer
+        ds_modulo:
+          type: string
+        ds_funcao:
+          type: string
+
+    Norma:
+      type: object
+      properties:
+        cd_norma:
+          type: integer
+          readOnly: true
+        ds_norma:
+          type: string
+        ds_versao:
+          type: string
+        fl_tipo_norma:
+          type: string
+        dt_norma:
+          type: string
+          format: date-time
+        id_importacao:
+          type: string
+
+    Avaliacao:
+      type: object
+      properties:
+        cd_avaliacao:
+          type: integer
+          readOnly: true
+        dt_inicio_aval:
+          type: string
+          format: date-time
+        dt_fim_aval:
+          type: string
+          format: date-time
+        ie_status_aval:
+          type: string
+        ie_tipo_avaliacao:
+          type: string
+        ds_avaliadores:
+          type: string
+        cd_norma:
+          type: integer
+        cd_instituicao:
+          type: integer
+
+    AvaliacaoConformidade:
+      type: object
+      properties:
+        cd_aval_conform:
+          type: integer
+          readOnly: true
+        cd_avaliacao:
+          type: integer
+        cd_estruturacao_norma:
+          type: integer
+        dt_aval_conformidade:
+          type: string
+          format: date-time
+        ie_conformidade:
+          type: string
+        ds_evidencias:
+          type: string
+        ds_anexo:
+          type: string
+          format: byte
