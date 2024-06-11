@@ -1,4 +1,4 @@
-# Instruções para configurar e testar o Swagger UI com seu arquivo swagger.yaml.
+# Configuração e Teste - Polaris Swagger UI
 
 ### Pré-requisitos
     - Python instalado (versão 3.0 ou superior).
