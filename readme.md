@@ -1,15 +1,15 @@
 # Configuração e Teste - Polaris Swagger UI
 
 ### Pré-requisitos
-    - Python instalado (versão 3.0 ou superior).
+    - Python instalado.
     - Git instalado.
 
-### Passos para Configurar e Testar o Swagger UI
+### Passos para Configurar e Testar
 
 1. Clone o Repositório Swagger UI
 Clone o repositório oficial do Swagger UI do GitHub:
 
-```sh
+```git
 git clone https://github.com/swagger-api/swagger-ui.git
 ```
 
